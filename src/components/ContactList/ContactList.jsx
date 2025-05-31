@@ -1,16 +1,12 @@
+import { selectFilteredContacts } from "../../redux/contactsSlice";
 import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function ContactList() {
-  const dispatch = useDispatch();
-  const filter = useSelector(state => state.filters.name);
-  const contactList = useSelector(state => state.contacts.items);
+  const visibleContacts = useSelector(selectFilteredContacts);
 
-  console.log("Contact list", contactList);
-  const visibleContacts = contactList.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  if (visibleContacts.length === 0) return <p>No contacts available.</p>;
 
   return (
     <ul className={css.list}>
