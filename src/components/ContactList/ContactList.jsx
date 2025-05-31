@@ -7,6 +7,7 @@ function ContactList() {
   const filter = useSelector(state => state.filters.name);
   const contactList = useSelector(state => state.contacts.items);
 
+  console.log("Contact list", contactList);
   const visibleContacts = contactList.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -16,6 +17,7 @@ function ContactList() {
       {visibleContacts.map(contact => (
         <li className={css.item} key={contact.id}>
           <Contact data={contact} />
+          {console.log(`Item ${contact.id}`)}
         </li>
       ))}
     </ul>

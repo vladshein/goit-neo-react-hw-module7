@@ -3,7 +3,8 @@ import { useId } from "react";
 import css from "./FormikForm.module.css";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+// import { addContact, setLoading } from "../../redux/contactsSlice";
+import { addContactOp } from "../../redux/contactsOps";
 
 const initialValues = {
   name: "",
@@ -26,9 +27,15 @@ const FormikForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, actions) => {
+    // dispatch(
+    //   addContact({
+    //     id: Date.now(),
+    //     name: values.name,
+    //     number: values.number,
+    //   })
+    // );
     dispatch(
-      addContact({
-        id: Date.now(),
+      addContactOp({
         name: values.name,
         number: values.number,
       })
@@ -37,6 +44,7 @@ const FormikForm = () => {
 
     actions.resetForm();
   };
+
   const value = useSelector(state => state.contacts.items);
   console.log(value);
 

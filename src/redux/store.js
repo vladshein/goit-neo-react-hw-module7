@@ -1,24 +1,23 @@
-import { combineReducers, configureStore, createStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { contactsReducer } from "./contactsSlice";
 import { filtersReducer } from "./filtersSlice";
-
-import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
-
-const persistConfig = {
-  key: "root",
-  storage,
-};
 
 const rootReducer = combineReducers({
   contacts: contactsReducer,
   filters: filtersReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = configureStore({
-  reducer: persistedReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ["your/action/type"],
+        // Ignore these field paths in all actions
+        ignoredActionPaths: ["meta.arg", "payload.timestamp"],
+        // Ignore these paths in the state
+        ignoredPaths: ["items.dates"],
+      },
+    }),
+  reducer: rootReducer,
 });
-
-export const persistor = persistStore(store);
